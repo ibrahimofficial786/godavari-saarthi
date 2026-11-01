@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Godavari Saarthi</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="manifest" href="/manifest.json">
+<style>
+:root{--bg:#f7f2ea;--card:#fff;--ink:#2a1a10;--mute:#76624f;--pri:#c2410c;--pri2:#ffe9d6;--ok:#15803d;--warn:#b91c1c;--line:#eadbc8;--sh:0 2px 10px rgba(120,60,10,.09);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17110d;--card:#241b14;--ink:#f7ecdf;--mute:#c0ad97;--pri:#fb923c;--pri2:#3a2918;--ok:#4ade80;--warn:#f87171;--line:#3a2d20;--sh:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17110d;--card:#241b14;--ink:#f7ecdf;--mute:#c0ad97;--pri:#fb923c;--pri2:#3a2918;--ok:#4ade80;--warn:#f87171;--line:#3a2d20;--sh:none;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Noto Sans Telugu","Noto Sans Devanagari",sans-serif}
+body.big{font-size:20px}
+body.hc{--bg:#000;--card:#000;--ink:#fff;--mute:#fff;--pri:#ffd400;--pri2:#222;--line:#fff;--sh:none}
+header{background:linear-gradient(135deg,#9a3412,#ea580c 55%,#f59e0b);color:#fff;padding:22px 18px 0;position:relative}
+body.hc header{background:#000;border-bottom:2px solid #fff}
+header h1{margin:0;font-size:1.55em;letter-spacing:.06em}header p{margin:4px 0 0;font-size:.9em;opacity:.92;max-width:34em}
+header svg{display:block;width:100%;height:34px;margin-top:10px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;max-width:760px;margin:0 auto;padding:10px 14px 0}
+.bar select,.bar button{font:inherit;font-size:.82em;padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--ink);margin:0;cursor:pointer}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:2px;overflow-x:auto;background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -2px 12px rgba(0,0,0,.08)}
+nav button{flex:1 0 66px;display:flex;flex-direction:column;align-items:center;gap:1px;border:0;background:none;color:var(--mute);font:inherit;font-size:.68em;padding:5px 4px;border-radius:10px;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--pri);background:var(--pri2);font-weight:700}
+.ic{font-size:1.7em;line-height:1.1}
+main{max-width:760px;margin:0 auto;padding:14px 14px 100px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px;box-shadow:var(--sh)}
+.card h3{margin:0 0 6px}
+label{display:block;font-size:.82em;font-weight:600;color:var(--mute);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+button.p{background:linear-gradient(135deg,#c2410c,#ea580c);color:#fff;border:0;border-radius:12px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
+body.hc button.p{background:#ffd400;color:#000}
+button.s{background:var(--card);color:var(--pri);border:1.5px solid var(--pri);border-radius:12px;padding:8px 12px;font:inherit;font-weight:600;cursor:pointer}
+.chk{display:flex;gap:8px;flex-wrap:wrap}.chk label{display:flex;gap:6px;align-items:center;margin:0;padding:8px 12px;border:1px solid var(--line);border-radius:22px;color:var(--ink);font-weight:500}
+.chk input{width:auto}
+.tag{display:inline-block;font-size:.72em;font-weight:600;padding:2px 9px;border-radius:10px;background:var(--pri2);color:var(--pri)}
+.alert{border-left:4px solid var(--warn);background:var(--pri2);padding:9px 12px;border-radius:8px;margin:10px 0}
+.ok{color:var(--ok)}.bad{color:var(--warn)}.m{color:var(--mute);font-size:.86em}
+ol{list-style:none;padding:0;margin:12px 0;counter-reset:s}
+ol li{counter-increment:s;position:relative;padding:0 0 14px 42px}
+ol li:before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-size:.85em;font-weight:700}
+body.hc ol li:before{color:#000}
+ol li:not(:last-child):after{content:"";position:absolute;left:14px;top:32px;bottom:2px;width:2px;background:var(--line)}
+.msg{padding:9px 13px;border-radius:14px;margin:8px 0;max-width:92%}
+.u{background:var(--pri2);margin-left:auto}.a{background:var(--bg);border:1px solid var(--line)}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 14px}
+.card .grid{margin:12px 0 0}
+.cta{margin:0!important;padding:14px 10px!important}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;box-shadow:var(--sh);font-size:.8em;color:var(--mute)}
+.stat b{display:block;font-size:1.9em;color:var(--pri);line-height:1.2}
+.bars{display:flex;gap:12px;align-items:flex-end;height:130px;margin-top:12px}
+.bars div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:.74em;color:var(--mute)}
+.bars i{display:block;width:100%;background:linear-gradient(var(--pri),#f59e0b);border-radius:8px 8px 0 0}
+.bars em{font-style:normal;font-weight:700;color:var(--ink)}
+a{color:var(--pri)}
+body.front header,body.front .bar,body.front nav,body.front main{display:none}
+#front{display:none}body.front #front{display:block}
+.tb{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 18px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:6}
+.tb button{margin:0}
+.lh{background:linear-gradient(135deg,#9a3412,#ea580c 55%,#f59e0b);color:#fff;padding:54px 20px 64px;text-align:center}
+.lh h1{font-size:2.1em;line-height:1.15;margin:14px auto 10px;max-width:16em}.lh p{max-width:34em;margin:0 auto 22px;opacity:.95}
+.lh .tag{background:rgba(255,255,255,.22);color:#fff}
+.lh button.s{background:transparent;color:#fff;border-color:#fff}
+.lh button.p{background:#fff;color:#9a3412;margin:0}
+.wrap{max-width:900px;margin:0 auto;padding:26px 16px}
+.wrap h2{text-align:center;margin:26px 0 14px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.fg .card{margin:0}.fg .ic{font-size:2em;display:block}.fg b{display:block;margin:6px 0 2px}
+.au{max-width:420px;margin:30px auto;padding:22px}
+footer{text-align:center;color:var(--mute);font-size:.8em;padding:20px}
+</style></head><body class="front"><div id="front"></div>
+<header><h1>🪔 GODAVARI SAARTHI</h1><p id="sub"></p><svg viewBox="0 0 400 34" preserveAspectRatio="none"><path d="M0 18 Q50 0 100 18 T200 18 T300 18 T400 18 V34 H0Z" style="fill:var(--bg)"/></svg></header>
+<div class="bar">
+<select id="lang" aria-label="Language"><option value="en">English</option><option value="te">తెలుగు</option><option value="hi">हिन्दी</option></select>
+<button id="bigbtn">A+</button><button id="hcbtn">◐ Contrast</button><span id="net" class="m" style="align-self:center"></span><span id="who" class="m"></span><button id="lo"></button>
+</div>
+<nav id="nav"></nav>
+<main id="v"></main>
+<script>
+var T={
+en:{home:"Home",sched:"Schedule",map:"Map",read:"Read aloud",share:"Share",sub:"Verified, multilingual guidance for Godavari Pushkaralu 2027",plan:"Plan",saved:"My journeys",ann:"Announcements",fac:"Facilities",ask:"Assistant",adm:"Admin",sos:"Emergency",from:"Starting from",to:"Destination ghat",needs:"Needs",wc:"Wheelchair",eld:"Elderly",kid:"With children",lowv:"Low vision",gen:"Generate plan",save:"Save journey",none:"Nothing here yet.",upd:"Update affecting this journey",askph:"Ask e.g. parking, toilets, timings…",send:"Send",pub:"Publish announcement",title:"Title",text:"Details",ghat:"Applies to",all:"All ghats",open:"Open",closed:"Closed",del:"Delete",demo:"Demo data. Real deployment needs authenticated admin login and official sources.",online:"Online",offline:"Offline: saved data available",type:"Type",any:"Any"},
+te:{home:"హోమ్",sched:"కార్యక్రమాలు",map:"పటం",read:"చదివి వినిపించు",share:"షేర్",sub:"గోదావరి పుష్కరాలు 2027 కోసం ధృవీకరించిన బహుభాషా మార్గదర్శనం",plan:"ప్రణాళిక",saved:"నా యాత్రలు",ann:"ప్రకటనలు",fac:"సౌకర్యాలు",ask:"సహాయకుడు",adm:"అడ్మిన్",sos:"అత్యవసరం",from:"ప్రారంభ ప్రదేశం",to:"గమ్య ఘాట్",needs:"అవసరాలు",wc:"వీల్‌చైర్",eld:"వృద్ధులు",kid:"పిల్లలతో",lowv:"తక్కువ చూపు",gen:"ప్రణాళిక తయారు చేయి",save:"యాత్ర సేవ్ చేయి",none:"ఇంకా ఏమీ లేదు.",upd:"ఈ యాత్రపై ప్రభావం చూపే సమాచారం",askph:"ఉదా. పార్కింగ్, టాయిలెట్లు, సమయాలు…",send:"పంపు",pub:"ప్రకటన ప్రచురించు",title:"శీర్షిక",text:"వివరాలు",ghat:"వర్తించేది",all:"అన్ని ఘాట్లు",open:"తెరిచి ఉంది",closed:"మూసివేశారు",del:"తొలగించు",demo:"డెమో డేటా. నిజమైన అమలుకు ధృవీకరణ లాగిన్ అవసరం.",online:"ఆన్‌లైన్",offline:"ఆఫ్‌లైన్: సేవ్ చేసిన డేటా అందుబాటులో ఉంది",type:"రకం",any:"ఏదైనా"},
+hi:{home:"होम",sched:"कार्यक्रम",map:"नक्शा",read:"सुनें",share:"साझा करें",sub:"गोदावरी पुष्करालु 2027 के लिए सत्यापित बहुभाषी मार्गदर्शन",plan:"योजना",saved:"मेरी यात्राएँ",ann:"घोषणाएँ",fac:"सुविधाएँ",ask:"सहायक",adm:"एडमिन",sos:"आपातकाल",from:"प्रस्थान स्थान",to:"गंतव्य घाट",needs:"आवश्यकताएँ",wc:"व्हीलचेयर",eld:"बुजुर्ग",kid:"बच्चों के साथ",lowv:"कम दृष्टि",gen:"योजना बनाएँ",save:"यात्रा सहेजें",none:"अभी कुछ नहीं।",upd:"इस यात्रा को प्रभावित करने वाली सूचना",askph:"जैसे पार्किंग, शौचालय, समय…",send:"भेजें",pub:"घोषणा प्रकाशित करें",title:"शीर्षक",text:"विवरण",ghat:"लागू",all:"सभी घाट",open:"खुला",closed:"बंद",del:"हटाएँ",demo:"डेमो डेटा। वास्तविक उपयोग के लिए प्रमाणित एडमिन लॉगिन चाहिए।",online:"ऑनलाइन",offline:"ऑफ़लाइन: सहेजा डेटा उपलब्ध",type:"प्रकार",any:"कोई भी"}};
+var GH=[{id:"pushkar",n:"Pushkar Ghat, Rajahmundry",wc:1},{id:"kotilinga",n:"Kotilingala Ghat, Rajahmundry",wc:0},{id:"dowleswaram",n:"Dowleswaram Barrage Ghat",wc:1},{id:"bhadra",n:"Bhadrachalam Ghat",wc:1}];
+var ST={Hyderabad:7,Vijayawada:3,Visakhapatnam:4,Guntur:4,Chennai:10,Bengaluru:13,Kakinada:1.5,Rajahmundry:0};
+var QA=[
+{k:["parking","park","పార్కింగ్","पार्किंग"],s:"Traffic Control (sample)",en:"Parking is at designated lots outside the core ghat area. Use the shuttle from the lot to the ghat; check Announcements for changes.",te:"పార్కింగ్ ఘాట్ ప్రధాన ప్రాంతం వెలుపల నిర్దేశిత స్థలాల్లో ఉంది. అక్కడి నుండి షటిల్ వాడండి.",hi:"पार्किंग घाट क्षेत्र के बाहर निर्धारित स्थानों पर है। वहाँ से शटल लें।"},
+{k:["toilet","restroom","టాయిలెట్","शौचालय"],s:"Sanitation Dept (sample)",en:"Toilets are along approach roads and near each ghat. See Facilities for status, including accessible toilets.",te:"టాయిలెట్లు ఘాట్ల దగ్గర, మార్గాల్లో ఉన్నాయి. స్థితి కోసం సౌకర్యాలు చూడండి.",hi:"शौचालय घाटों के पास और रास्तों पर हैं। स्थिति के लिए सुविधाएँ देखें।"},
+{k:["time","timing","slot","snan","bath","సమయ","समय"],s:"Festival Committee (sample)",en:"Holy dips are open through the day. Early morning and late evening are less crowded. Follow the official time slots in Announcements.",te:"పుణ్యస్నానాలు రోజంతా. ఉదయం, సాయంత్రం రద్దీ తక్కువ. అధికారిక సమయాలను ప్రకటనల్లో చూడండి.",hi:"पवित्र स्नान दिनभर। सुबह और शाम भीड़ कम। आधिकारिक समय घोषणाओं में देखें।"},
+{k:["medical","doctor","hospital","ambulance","వైద్య","चिकित्सा"],s:"Health Dept (sample)",en:"First-aid and medical camps are near the main ghats. For an ambulance, dial 108. For any emergency, dial 112.",te:"ప్రథమ చికిత్స శిబిరాలు ప్రధాన ఘాట్ల దగ్గర ఉన్నాయి. అంబులెన్స్ కోసం 108, అత్యవసరానికి 112.",hi:"प्राथमिक चिकित्सा शिविर मुख्य घाटों के पास हैं। एम्बुलेंस 108, आपात 112।"},
+{k:["lost","missing","child","తప్పిపోయ","खो"],s:"Police (sample)",en:"Report lost persons at the nearest help desk or call 112 immediately. Note the last seen place and clothing.",te:"తప్పిపోయిన వారి గురించి సమీప హెల్ప్ డెస్క్‌కు లేదా 112కు తెలియజేయండి.",hi:"खोए व्यक्ति की सूचना निकटतम हेल्प डेस्क या 112 पर दें।"},
+{k:["wheelchair","disab","elder","accessible","వీల్","व्हील"],s:"Social Welfare (sample)",en:"Accessible ghats have ramps and wheelchair assistance. Choose ‘Wheelchair’ in Plan to get an accessible route.",te:"అందుబాటు ఘాట్లలో ర్యాంపులు, వీల్‌చైర్ సహాయం ఉంటాయి. ప్రణాళికలో ‘వీల్‌చైర్’ ఎంచుకోండి.",hi:"सुगम घाटों पर रैंप और व्हीलचेयर सहायता है। योजना में ‘व्हीलचेयर’ चुनें।"}];
+var S={lang:"en",tab:"home",plan:null,anns:[
+{id:1,title:"Kotilingala Ghat: shuttle-only access",ghat:"kotilinga",text:"Walk-in entry restricted during peak hours. Use the shuttle from the Pushkar Ghat parking area.",t:"Sample"},
+{id:2,title:"Dowleswaram: revised bathing slots",ghat:"dowleswaram",text:"Bathing is open 4 AM to 9 PM. Wait at the holding area until called.",t:"Sample"}],
+facs:[{id:1,n:"Water point – Pushkar Ghat",type:"Water",g:"pushkar",open:1},{id:2,n:"Accessible toilets – Pushkar Ghat",type:"Toilet",g:"pushkar",open:1},{id:3,n:"First-aid camp – Kotilingala",type:"Medical",g:"kotilinga",open:1},{id:4,n:"Help desk – Dowleswaram",type:"Help desk",g:"dowleswaram",open:1},{id:5,n:"Free meals (Annadanam) – Bhadrachalam",type:"Food",g:"bhadra",open:0},{id:6,n:"Cloakroom – Pushkar Ghat",type:"Cloakroom",g:"pushkar",open:1}],
+journeys:[],ff:"",chat:[]};
+try{var raw=localStorage.getItem("gs_j");if(raw)S.journeys=JSON.parse(raw)}catch(e){}
+try{var r2=localStorage.getItem("gs_a");if(r2)S.anns=JSON.parse(r2);var r3=localStorage.getItem("gs_f");if(r3)S.facs=JSON.parse(r3)}catch(e){}
+function persist(){try{localStorage.setItem("gs_j",JSON.stringify(S.journeys));localStorage.setItem("gs_a",JSON.stringify(S.anns));localStorage.setItem("gs_f",JSON.stringify(S.facs))}catch(e){}}
+function t(k){return T[S.lang][k]||T.en[k]||k}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function gn(id){var g=GH.filter(function(x){return x.id==id})[0];return g?g.n:t("all")}
+function opts(a,sel){return a.map(function(x){return'<option value="'+esc(x[0])+'"'+(x[0]==sel?" selected":"")+">"+esc(x[1])+"</option>"}).join("")}
+function mkPlan(f,s,g,needs){
+ var gh=GH.filter(function(x){return x.id==g})[0],h=ST[s],st=[];
+ if(s=="Rajahmundry")st.push("You are already in Rajahmundry. Head to the nearest shuttle point.");
+ else st.push("Travel from "+s+" to Rajahmundry (about "+h+" h; "+(h>6?"overnight train or bus recommended":"train or bus")+"). Indicative only.");
+ st.push("Park or alight at the designated transport hub and take the official shuttle to "+gh.n+".");
+ if(needs.indexOf("wc")>=0)st.push(gh.wc?"Accessible route available: ask for wheelchair assistance at the help desk.":"This ghat has limited accessibility. Consider Pushkar Ghat or Dowleswaram instead.");
+ if(needs.indexOf("eld")>=0)st.push("Plan your dip in the early morning or evening, carry water, and use the priority queue where provided.");
+ if(needs.indexOf("kid")>=0)st.push("Tag your children with your phone number. Note the nearest help desk.");
+ if(needs.indexOf("lowv")>=0)st.push("Ask volunteers for guided assistance. Use large text and high contrast in this app.");
+ st.push("Check Facilities near the ghat for water, toilets and medical help. Emergency: 112.");
+ return{from:s,g:g,needs:needs,steps:st,lang:S.lang,id:Date.now()}}
+function impacts(j){return S.anns.filter(function(a){return a.ghat=="all"||a.ghat==j.g})}
+function planHtml(p,savedView){
+ var im=impacts(p).map(function(a){return'<div class="alert"><b>'+t("upd")+":</b> "+esc(a.title)+"<br>"+esc(a.text)+"</div>"}).join("");
+ return'<div class="card"><div class="row"><b>'+esc(p.from)+" → "+esc(gn(p.g))+'</b>'+(savedView?'<button class="s" data-del="'+p.id+'">'+t("del")+"</button>":'<button class="p" id="sv">'+t("save")+"</button>")+"</div>"+im+"<ol>"+p.steps.map(function(x){return"<li>"+esc(stepText(x))+"</li>"}).join("")+"</ol>"+'<button class="s" data-read="'+p.id+'">🔊 '+t("read")+'</button> <button class="s" data-share="'+p.id+'">'+t("share")+"</button></div>"}
+function render(){
+ document.documentElement.lang=S.lang;
+ document.getElementById("sub").textContent=t("sub");
+ var tabs=[["home","home"],["plan","plan"],["saved","saved"],["ann","ann"],["fac","fac"],["ask","ask"],["sched","sched"],["map","map"],["sos","sos"],["adm","adm"]];
+ document.getElementById("nav").innerHTML=tabs.map(function(x){return'<button data-tab="'+x[0]+'" class="'+(S.tab==x[0]?"on":"")+'"><span class="ic">'+(IC[x[0]]||"•")+'</span>'+t(x[1])+"</button>"}).join("");
+ var h="",v=document.getElementById("v");
+ if(S.tab=="plan"){
+  h='<div class="card"><label>'+t("from")+'</label><select id="pf">'+opts(Object.keys(ST).map(function(k){return[k,k]}),S.pf)+"</select><label>"+t("to")+'</label><select id="pg">'+opts(GH.map(function(g){return[g.id,g.n]}),S.pg)+'</select><label>'+t("needs")+'</label><div class="chk">'+[["wc","wc"],["eld","eld"],["kid","kid"],["lowv","lowv"]].map(function(x){return'<label><input type="checkbox" value="'+x[0]+'">'+t(x[1])+"</label>"}).join("")+'</div><button class="p" id="gen">'+t("gen")+"</button></div>"+(S.plan?planHtml(S.plan,false):"")}
+ if(S.tab=="saved")h=S.journeys.length?S.journeys.map(function(j){return planHtml(j,true)}).join(""):'<p class="m">'+t("none")+"</p>";
+ if(S.tab=="ann")h=S.anns.length?S.anns.map(function(a){return'<div class="card"><span class="tag">'+esc(gn(a.ghat))+"</span> <b>"+esc(a.title)+"</b><p>"+esc(a.text)+'</p><span class="m">'+esc(a.t)+"</span></div>"}).join(""):'<p class="m">'+t("none")+"</p>";
+ if(S.tab=="fac"){var ty=Array.from(new Set(S.facs.map(function(f){return f.type})));
+  h='<div class="card"><label>'+t("type")+'</label><select id="ff">'+opts([["",t("any")]].concat(ty.map(function(x){return[x,x]})),S.ff)+"</select></div>"+S.facs.filter(function(f){return!S.ff||f.type==S.ff}).map(function(f){return'<div class="card row"><div><b>'+esc(f.n)+'</b><br><span class="m">'+esc(f.type)+" · "+esc(gn(f.g))+'</span></div><b class="'+(f.open?"ok":"bad")+'">'+(f.open?t("open"):t("closed"))+"</b></div>"}).join("")}
+ if(S.tab=="ask"){
+  h='<div class="card">'+(S.chat.map(function(m){return'<div class="msg '+m.r+'">'+esc(m.x)+(m.s?'<br><span class="m">Source: '+esc(m.s)+"</span>":"")+"</div>"}).join("")||'<p class="m">'+t("askph")+"</p>")+'</div><div class="row"><input id="q" placeholder="'+esc(t("askph"))+'" style="flex:1"><button class="p" id="go" style="margin:0">'+t("send")+"</button></div>"}
+ if(S.tab=="sos")h='<div class="card"><h3>'+t("sos")+'</h3><p><a href="tel:112">112</a> — Emergency<br><a href="tel:108">108</a> — Ambulance<br><a href="tel:100">100</a> — Police<br><a href="tel:101">101</a> — Fire</p><p class="m">Ghat help desk numbers: add from official notification.</p></div>';
+ if(S.tab=="adm"){
+  h='<div class="card"><p class="m">'+t("demo")+'</p><label>'+t("title")+'</label><input id="at"><label>'+t("ghat")+'</label><select id="ag">'+opts([["all",t("all")]].concat(GH.map(function(g){return[g.id,g.n]})))+'</select><label>'+t("text")+'</label><textarea id="ad" rows="3"></textarea><button class="p" id="ap">'+t("pub")+"</button></div>"+S.anns.map(function(a){return'<div class="card row"><span>'+esc(a.title)+'</span><button class="s" data-da="'+a.id+'">'+t("del")+"</button></div>"}).join("")+S.facs.map(function(f){return'<div class="card row"><span>'+esc(f.n)+'</span><button class="s" data-tf="'+f.id+'">'+(f.open?t("open"):t("closed"))+"</button></div>"}).join("")}
+ if(S.tab=="sched")h='<div class="card"><p class="m">Sample guidance. Official Pushkaralu dates and muhurtham appear in Announcements.</p></div>'+SCH.map(function(x){return'<div class="card"><b>'+x[0]+'</b><br>'+x[1]+'</div>'}).join("");
+ if(S.tab=="map")h=mapSvg();
+ v.innerHTML=h;
+ if(S.tab=="plan"){var nb=v.querySelectorAll(".chk input");for(var i=0;i<nb.length;i++)nb[i].checked=(S.pn||[]).indexOf(nb[i].value)>=0}
+}
+function ask(q){
+ q=q.toLowerCase();var hit=null;
+ QA.forEach(function(e){if(!hit&&e.k.some(function(k){return q.indexOf(k.toLowerCase())>=0}))hit=e});
+ S.chat.push({r:"u",x:q});
+ S.chat.push(hit?{r:"a",x:hit[S.lang],s:hit.s}:{r:"a",x:"No verified answer found. Check Announcements, visit a help desk or call 112."});
+}
+document.addEventListener("click",function(e){
+ var b=e.target.closest("button");if(!b)return;
+ if(b.dataset.tab){S.tab=b.dataset.tab;render();return}
+ if(b.id=="gen"){S.pf=document.getElementById("pf").value;S.pg=document.getElementById("pg").value;S.pn=Array.from(document.querySelectorAll(".chk input:checked")).map(function(x){return x.value});S.plan=mkPlan(0,S.pf,S.pg,S.pn);render()}
+ if(b.id=="sv"&&S.plan){S.journeys.push(S.plan);persist();S.tab="saved";render()}
+ if(b.dataset.del){S.journeys=S.journeys.filter(function(j){return j.id!=b.dataset.del});persist();render()}
+ if(b.id=="go"){var q=document.getElementById("q").value.trim();if(q){ask(q);render()}}
+ if(b.id=="ap"){var ti=document.getElementById("at").value.trim();if(ti){S.anns.unshift({id:Date.now(),title:ti,ghat:document.getElementById("ag").value,text:document.getElementById("ad").value,t:new Date().toLocaleString()});persist();render()}}
+ if(b.dataset.da){S.anns=S.anns.filter(function(a){return a.id!=b.dataset.da});persist();render()}
+ if(b.dataset.tf){S.facs.forEach(function(f){if(f.id==b.dataset.tf)f.open=f.open?0:1});persist();render()}
+ if(b.id=="bigbtn")document.body.classList.toggle("big");
+ if(b.id=="hcbtn")document.body.classList.toggle("hc");
+});
+document.addEventListener("change",function(e){
+ if(e.target.id=="lang"){S.lang=e.target.value;render()}
+ if(e.target.id=="ff"){S.ff=e.target.value;render()}
+});
+document.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target.id=="q")document.getElementById("go").click()});
+function net(){document.getElementById("net").textContent=navigator.onLine?t("online"):t("offline")}
+window.addEventListener("online",net);window.addEventListener("offline",net);
+var _p=persist;persist=function(){_p();if(S.tok&&S.user&&S.user.role=="admin")fetch("/api/admin/state",{method:"PUT",headers:{"Content-Type":"application/json",Authorization:"Bearer "+S.tok},body:JSON.stringify({anns:S.anns,facs:S.facs})}).catch(function(){})};
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(false){var pw=prompt("Admin password");if(pw)fetch("/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:pw})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){S.tok=d.token;alert("Admin signed in");render()}).catch(function(){alert("Login failed")})}},true);
+fetch("/api/state").then(function(r){return r.json()}).then(function(d){if(d.anns)S.anns=d.anns;if(d.facs)S.facs=d.facs;try{localStorage.setItem("gs_a",JSON.stringify(S.anns));localStorage.setItem("gs_f",JSON.stringify(S.facs))}catch(e){}render()}).catch(function(){});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(function(){});
+var SCH=[["Early morning","Least crowded. Best for elderly pilgrims and families with children."],["Mid-morning","Crowd builds up. Expect long shuttle queues."],["Noon to afternoon","Hot, so carry water. Moderate crowd."],["Evening","Second quieter window. Aarti at main ghats (sample)."]];
+function mapSvg(){var order=["bhadra","kotilinga","pushkar","dowleswaram"],o='<div class="card"><svg viewBox="0 0 360 260" width="100%" role="img" aria-label="Schematic river map"><path d="M0 130 Q45 110 90 130 T180 130 T270 130 T360 130" fill="none" stroke="#3b8fd9" stroke-width="14" opacity=".55"/><text x="4" y="20" style="fill:var(--mute)" font-size="11">Upstream (west)</text><text x="356" y="20" text-anchor="end" style="fill:var(--mute)" font-size="11">Downstream (east)</text>';
+ order.forEach(function(id,i){var g=GH.filter(function(x){return x.id==id})[0],f=S.facs.filter(function(x){return x.g==id}),op=f.filter(function(x){return x.open}).length,x=45+i*90,up=i%2==0,c=op==f.length?"#1d7a46":"#b3261e",a=S.anns.filter(function(n){return n.ghat==id||n.ghat=="all"}).length;
+ o+='<circle cx="'+x+'" cy="130" r="13" fill="'+c+'"/><text x="'+x+'" y="135" text-anchor="middle" fill="#fff" font-size="13">'+(g.wc?"♿":"•")+'</text><text x="'+x+'" y="'+(up?95:175)+'" text-anchor="middle" style="fill:var(--ink)" font-size="11" font-weight="600">'+esc(g.n.split(",")[0].replace(" Ghat",""))+'</text><text x="'+x+'" y="'+(up?109:189)+'" text-anchor="middle" style="fill:var(--mute)" font-size="10">'+op+"/"+f.length+" open"+(a?" · "+a+" notice":"")+'</text>'});
+ return o+'</svg><p class="m">Schematic, not to scale. ♿ = accessible ghat. Green = all facilities open. Red = some closed.</p></div>'}
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var id=b.dataset.read||b.dataset.share;if(!id)return;var j=S.journeys.concat(S.plan?[S.plan]:[]).filter(function(x){return x.id==id})[0];if(!j)return;var txt="Godavari Saarthi: "+j.from+" to "+gn(j.g)+". "+j.steps.map(stepText).join(" ");
+ if(b.dataset.read){if(window.speechSynthesis){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(txt);u.lang={en:"en-IN",te:"te-IN",hi:"hi-IN"}[S.lang];speechSynthesis.speak(u)}}
+ else if(navigator.share)navigator.share({text:txt}).catch(function(){});else window.open("https://wa.me/?text="+encodeURIComponent(txt))});
+var STP={
+en:{trav:"Travel from {0} to Rajahmundry (about {1} h). Indicative only.",here:"You are already in Rajahmundry. Head to the nearest shuttle point.",shuttle:"Alight at the designated transport hub and take the official shuttle to {0}.",wcok:"Accessible route available: ask for wheelchair assistance at the help desk.",wcno:"This ghat has limited accessibility. Consider Pushkar Ghat or Dowleswaram instead.",eld:"Plan your dip for early morning or evening, carry water, and use the priority queue where provided.",kid:"Tag your children with your phone number and note the nearest help desk.",lowv:"Ask volunteers for guided assistance. Use large text and high contrast in this app.",fac:"Check Facilities near the ghat for water, toilets and medical help. Emergency: 112."},
+te:{trav:"{0} నుండి రాజమండ్రికి ప్రయాణం (సుమారు {1} గంటలు). సూచనమాత్రమే.",here:"మీరు ఇప్పటికే రాజమండ్రిలో ఉన్నారు. సమీప షటిల్ పాయింట్‌కు వెళ్ళండి.",shuttle:"నిర్దేశిత రవాణా కేంద్రం వద్ద దిగి, అధికారిక షటిల్‌లో {0}కు వెళ్ళండి.",wcok:"అందుబాటు మార్గం ఉంది: హెల్ప్ డెస్క్ వద్ద వీల్‌చైర్ సహాయం అడగండి.",wcno:"ఈ ఘాట్‌లో అందుబాటు పరిమితం. బదులుగా పుష్కర్ ఘాట్ లేదా ధవళేశ్వరం పరిగణించండి.",eld:"ఉదయం లేదా సాయంత్రం స్నానం ప్లాన్ చేయండి, నీరు తీసుకెళ్లండి, ప్రాధాన్య క్యూ వాడండి.",kid:"పిల్లలకు మీ ఫోన్ నంబర్ ట్యాగ్ చేయండి, సమీప హెల్ప్ డెస్క్ గుర్తుంచుకోండి.",lowv:"వాలంటీర్ల సహాయం అడగండి. యాప్‌లో పెద్ద అక్షరాలు, హై కాంట్రాస్ట్ వాడండి.",fac:"ఘాట్ దగ్గర నీరు, టాయిలెట్లు, వైద్య సహాయం కోసం సౌకర్యాలు చూడండి. అత్యవసరం: 112."},
+hi:{trav:"{0} से राजमहेंद्रवरम की यात्रा (लगभग {1} घंटे)। केवल अनुमान।",here:"आप पहले से राजमहेंद्रवरम में हैं। निकटतम शटल पॉइंट पर जाएँ।",shuttle:"निर्धारित परिवहन केंद्र पर उतरें और आधिकारिक शटल से {0} जाएँ।",wcok:"सुगम मार्ग उपलब्ध: हेल्प डेस्क पर व्हीलचेयर सहायता माँगें।",wcno:"इस घाट पर सुगमता सीमित है। पुष्कर घाट या धवलेश्वरम चुनें।",eld:"सुबह या शाम स्नान की योजना बनाएँ, पानी रखें, प्राथमिकता कतार का उपयोग करें।",kid:"बच्चों पर अपना फ़ोन नंबर लगाएँ और निकटतम हेल्प डेस्क याद रखें।",lowv:"स्वयंसेवकों से मार्गदर्शन माँगें। ऐप में बड़े अक्षर और हाई कॉन्ट्रास्ट चुनें।",fac:"घाट के पास पानी, शौचालय और चिकित्सा के लिए सुविधाएँ देखें। आपातकाल: 112।"}};
+function stepText(x){if(typeof x=="string")return x;var m=STP[S.lang][x[0]]||STP.en[x[0]];return m.replace("{0}",x[1]).replace("{1}",x[2])}
+function mkPlan(f,s,g,needs){var gh=GH.filter(function(x){return x.id==g})[0],st=[];st.push(s=="Rajahmundry"?["here"]:["trav",s,ST[s]]);st.push(["shuttle",gh.n]);
+ if(needs.indexOf("wc")>=0)st.push([gh.wc?"wcok":"wcno"]);if(needs.indexOf("eld")>=0)st.push(["eld"]);if(needs.indexOf("kid")>=0)st.push(["kid"]);if(needs.indexOf("lowv")>=0)st.push(["lowv"]);st.push(["fac"]);
+ return{from:s,g:g,needs:needs,steps:st,id:Date.now()}}
+function ask(q){var ql=q.toLowerCase(),hit=null;QA.forEach(function(e){if(!hit&&e.k.some(function(k){return ql.indexOf(k.toLowerCase())>=0}))hit=e});
+ S.chat.push({r:"u",x:q});var fb=hit?{x:hit[S.lang],s:hit.s}:{x:"No verified answer found. Check Announcements, visit a help desk or call 112."},m={r:"a",x:"…"};S.chat.push(m);
+ var ctx=QA.map(function(e){return e.en}).concat(S.anns.map(function(a){return a.title+": "+a.text}),S.facs.map(function(f){return f.n+" is "+(f.open?"open":"closed")})).join("\n");
+ fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({q:q,lang:S.lang,context:ctx})}).then(function(r){return r.json()}).then(function(d){if(d.answer){m.x=d.answer;m.s="Local AI, from verified data only"}else{m.x=fb.x;m.s=fb.s}render()}).catch(function(){m.x=fb.x;m.s=fb.s;render()})}
+var _r=render;render=function(){_r();var v=document.getElementById("v");if(S.tab=="home")v.innerHTML=homeHtml();
+ if(S.tab=="map"){if(window.L){v.innerHTML='<div class="card"><div id="lm" style="height:420px;border-radius:12px"></div><div class="row" style="margin-top:10px"><button class="s" id="loc">📍 Nearest ghat to me</button><span id="nr" class="m"></span></div><p class="m">Map data © OpenStreetMap contributors. Ghat positions are approximate sample data.</p></div>';initMap()}else v.innerHTML=mapSvg()}
+ var A=S.user&&S.user.role=="admin";document.getElementById("who").textContent=S.user?"👤 "+S.user.name+(A?" (admin)":""):"Guest";document.getElementById("lo").textContent=S.user?"Sign out":"Sign in";
+ if(S.tab=="adm"&&!A)v.innerHTML='<div class="card"><h3>🔐 Admin only</h3><p class="m">Sign in with the administrator account to publish announcements and manage facilities.</p></div>';
+ if(S.tab=="sos")v.insertAdjacentHTML("beforeend",'<div class="card"><h3>📣 Report lost person / need help</h3><select id="rt"><option>Lost person</option><option>Medical help</option><option>Other</option></select><label>Ghat</label><select id="rg">'+opts(GH.map(function(g){return[g.n,g.n]}))+'</select><label>Details</label><textarea id="rd" rows="2" placeholder="Name, age, clothing, last seen place"></textarea><label>Your phone</label><input id="rph" type="tel"><button class="p" id="rp">Send report</button><p class="m">In an emergency call 112 first.</p></div>');
+ if(S.tab=="adm"&&A)fetch("/api/admin/reports",{headers:{Authorization:"Bearer "+S.tok}}).then(function(r){return r.json()}).then(function(L){if(S.tab!="adm"||!L.map)return;v.insertAdjacentHTML("afterbegin",'<div class="card"><b>Pilgrim reports ('+L.length+')</b>'+(L.map(function(x){return'<div class="alert">'+esc(x.type)+" · "+esc(x.ghat)+" · "+esc(x.ts)+"<br>"+esc(x.details)+"<br>📞 "+esc(x.phone)+"</div>"}).join("")||'<p class="m">None yet.</p>')+"</div>")}).catch(function(){})};
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.id!="rp")return;var g=function(i){return document.getElementById(i).value};
+ fetch("/api/report",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:g("rt"),ghat:g("rg"),details:g("rd"),phone:g("rph")})}).then(function(r){if(!r.ok)throw 0;alert("Report sent to the control room. Also call 112 if urgent.");render()}).catch(function(){alert("Could not send. Please call 112.")})});
+var IC={home:"🏠",plan:"🧭",saved:"🔖",ann:"📢",fac:"📍",ask:"💬",sched:"🗓️",map:"🗺️",sos:"🆘",adm:"🔐"};
+function homeHtml(){var op=S.facs.filter(function(f){return f.open}).length,im=S.journeys.filter(function(j){return impacts(j).length}).length,a=S.anns[0],B=[["Early",25],["Morning",70],["Midday",55],["Evening",40]];
+ return'<div class="card"><h3>🙏 Welcome, '+(S.user?esc(S.user.name):"pilgrim")+'</h3><p class="m">Verified information, personal journey plans and official updates for Godavari Pushkaralu 2027, in one place.</p><div class="grid"><button class="p cta" data-tab="plan">🧭 '+t("plan")+'</button><button class="p cta" data-tab="ask">💬 '+t("ask")+'</button><button class="s cta" data-tab="sos">🆘 '+t("sos")+'</button></div></div><div class="grid"><div class="stat"><b>'+S.anns.length+'</b>'+t("ann")+'</div><div class="stat"><b>'+op+"/"+S.facs.length+'</b>'+t("fac")+" · "+t("open")+'</div><div class="stat"><b>'+S.journeys.length+'</b>'+t("saved")+'</div></div>'
+ +(im?'<div class="alert row"><span><b>'+im+" of your saved journeys have official updates.</b></span><button class=\"s\" data-tab=\"saved\">"+t("saved")+"</button></div>":"")
+ +(a?'<div class="card"><span class="tag">'+esc(gn(a.ghat))+'</span> <b>'+esc(a.title)+'</b><p class="m">'+esc(a.text)+'</p></div>':"")
+ +(S.wx?'<div class="card">🌤️ <b>Rajahmundry now: '+S.wx.t+'°C</b><span class="m"> · rain '+S.wx.p+' mm · Open-Meteo</span></div>':"")+'<div class="card"><b>Crowd forecast</b> <span class="tag">Sample</span><div class="bars">'+B.map(function(x){return'<div><em>'+x[1]+'%</em><i style="height:'+x[1]*.8+'%"></i><span>'+x[0]+'</span></div>'}).join("")+'</div></div>'}
+var FT=[["🧭","Personal journey plans","Plans built from your start point, ghat, language and accessibility needs."],["📢","Official updates","Announcements automatically flag the saved journeys they affect."],["💬","Verified assistant","Answers in your language from official information only."],["📍","Facilities and map","Water, toilets, medical help and help desks with live open or closed status."],["♿","Inclusive by design","Large text, high contrast, read aloud and accessible-route guidance."],["📴","Works offline","Saved journeys and key information stay available with weak signal."]];
+function setScr(x){S.scr=x;document.body.classList.toggle("front",x!="app");if(x=="app"){if(!S.tab)S.tab="home";render()}else drawFront();window.scrollTo(0,0)}
+function drawFront(){var f=document.getElementById("front");
+ if(S.scr=="auth"){var up=S.am=="up";
+  f.innerHTML='<div class="tb"><button class="s" data-go="land">← Back</button><b>🪔 GODAVARI SAARTHI</b></div><div class="au card"><h2>'+(up?"Create your account":"Welcome back")+'</h2><p class="m">'+(up?"Save journeys across devices and get updates that affect them.":"Sign in to see your saved journeys.")+'</p>'+(up?'<label>Full name</label><input id="an" autocomplete="name">':"")+'<label>Email</label><input id="ae" type="email" autocomplete="email"><label>Password</label><input id="apw" type="password" autocomplete="'+(up?"new-password":"current-password")+'" placeholder="At least 6 characters"><p id="aerr" class="bad"></p><button class="p" id="asub" style="width:100%;margin-top:4px">'+(up?"Sign up":"Sign in")+'</button><p class="m" style="text-align:center">'+(up?"Already registered? ":"New here? ")+'<a href="#" data-m="'+(up?"in":"up")+'">'+(up?"Sign in":"Create account")+'</a></p><button class="s" data-go="app" style="width:100%">Continue as guest</button></div>';return}
+ f.innerHTML='<div class="tb"><b>🪔 GODAVARI SAARTHI</b><span><button class="s" data-go="auth" data-m="in">Sign in</button> <button class="p" data-go="auth" data-m="up" style="margin:0">Get started</button></span></div><section class="lh"><span class="tag">Godavari Pushkaralu 2027 · PS-04</span><h1>Your trusted guide to the holy dip</h1><p>Personal journey plans, verified information and official updates in English, తెలుగు and हिन्दी.</p><div class="grid" style="max-width:440px"><button class="p" data-go="auth" data-m="up">Create free account</button><button class="s" data-go="app">Continue as guest</button></div></section><section class="wrap"><h2>Everything a pilgrim needs</h2><div class="fg">'+FT.map(function(x){return'<div class="card"><span class="ic">'+x[0]+'</span><b>'+x[1]+'</b><span class="m">'+x[2]+'</span></div>'}).join("")+'</div><h2>How it works</h2><div class="fg"><div class="card"><b>1. Sign up or browse as guest</b><span class="m">No account is needed for basic information.</span></div><div class="card"><b>2. Plan your journey</b><span class="m">Choose your starting city, ghat and needs.</span></div><div class="card"><b>3. Stay updated</b><span class="m">Get official changes that affect your saved plan.</span></div></div></section><footer>Godavari Saarthi · Sample data for demonstration</footer>'}
+function gv(i){return document.getElementById(i).value}
+function submitAuth(){var up=S.am=="up",b={email:gv("ae"),password:gv("apw")},er=document.getElementById("aerr");if(up)b.name=gv("an");er.textContent="";
+ fetch("/api/"+(up?"signup":"signin"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){if(!x.ok){er.textContent=x.d.error||"Failed";return}login(x.d)}).catch(function(){er.textContent="Server not reachable"})}
+function login(d){S.tok=d.token;S.user=d.user;try{localStorage.setItem("gs_tok",d.token)}catch(e){}
+ fetch("/api/journeys",{headers:{Authorization:"Bearer "+d.token}}).then(function(r){return r.json()}).then(function(x){var m={};(x.journeys||[]).concat(S.journeys).forEach(function(j){m[j.id]=j});S.journeys=Object.keys(m).map(function(k){return m[k]});S.tab="home";persist();setScr("app")}).catch(function(){setScr("app")})}
+function logout(){S.tok=null;S.user=null;S.journeys=[];try{localStorage.removeItem("gs_tok")}catch(e){}persist();setScr("land")}
+document.addEventListener("click",function(e){var el=e.target.closest("[data-go],[data-m]"),b=e.target.closest("button");
+ if(el){e.preventDefault();if(el.dataset.m)S.am=el.dataset.m;if(el.dataset.go)setScr(el.dataset.go);else drawFront();return}
+ if(b&&b.id=="asub")submitAuth();
+ if(b&&b.id=="lo"){if(S.user)logout();else{S.am="in";setScr("auth")}}});
+document.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target.closest(".au"))submitAuth()});
+var COORD={bhadra:[17.6688,80.8937],kotilinga:[16.9965,81.7770],pushkar:[16.9985,81.7860],dowleswaram:[16.9407,81.7706]},MAPI=null;
+function dist(a,b){var r=Math.PI/180,x=(b[1]-a[1])*r*Math.cos((a[0]+b[0])/2*r),y=(b[0]-a[0])*r;return Math.sqrt(x*x+y*y)*6371}
+function initMap(){var m=L.map("lm");MAPI=m;L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(m);
+ GH.forEach(function(g){var c=COORD[g.id],f=S.facs.filter(function(x){return x.g==g.id}),op=f.filter(function(x){return x.open}).length,n=S.anns.filter(function(a){return a.ghat==g.id||a.ghat=="all"}).length;
+  L.marker(c).addTo(m).bindPopup("<b>"+esc(g.n)+"</b><br>"+(g.wc?"♿ Accessible":"Limited access")+"<br>"+op+"/"+f.length+" facilities open<br>"+n+" notice(s)<br><a target='_blank' rel='noopener' href='https://www.openstreetmap.org/directions?to="+c[0]+"%2C"+c[1]+"'>Directions</a>")});
+ m.fitBounds(GH.map(function(g){return COORD[g.id]}),{padding:[30,30]})}
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.id!="loc")return;var nr=document.getElementById("nr");
+ if(!navigator.geolocation){nr.textContent="Location not supported";return}nr.textContent="Locating…";
+ navigator.geolocation.getCurrentPosition(function(p){var me=[p.coords.latitude,p.coords.longitude],best=null;GH.forEach(function(g){var d=dist(me,COORD[g.id]);if(!best||d<best.d)best={g:g,d:d}});
+  nr.textContent="Nearest: "+best.g.n+" (~"+best.d.toFixed(1)+" km)";if(MAPI){L.circleMarker(me,{radius:8,color:"#2563eb"}).addTo(MAPI).bindPopup("You are here");MAPI.fitBounds([me,COORD[best.g.id]],{padding:[40,40]})}},function(){nr.textContent="Could not get location. Allow permission (needs HTTPS or localhost)."})});
+fetch("https://api.open-meteo.com/v1/forecast?latitude=17.0&longitude=81.8&current=temperature_2m,precipitation&timezone=auto").then(function(r){return r.json()}).then(function(d){S.wx={t:Math.round(d.current.temperature_2m),p:d.current.precipitation};if(S.scr=="app"&&S.tab=="home")render()}).catch(function(){});
+var _p2=persist;persist=function(){_p2();if(S.tok&&S.user)fetch("/api/journeys",{method:"PUT",headers:{"Content-Type":"application/json",Authorization:"Bearer "+S.tok},body:JSON.stringify({journeys:S.journeys})}).catch(function(){})};
+render();net();
+S.am="in";var _tk=null;try{_tk=localStorage.getItem("gs_tok")}catch(e){}
+if(_tk)fetch("/api/me",{headers:{Authorization:"Bearer "+_tk}}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){login({token:_tk,user:d.user})}).catch(function(){setScr("land")});else setScr("land");
+</script></body></html>
